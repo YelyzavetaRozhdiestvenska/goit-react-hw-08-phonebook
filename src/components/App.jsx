@@ -1,33 +1,65 @@
-import { selectContact, selectError, selectIsLoading } from 'redux/selectors';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchContacts } from 'redux/operations';
-import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useEffect, lazy } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { Layout } from './Layout';
+import { PrivateRoute } from './PrivateRoute';
+import { RestrictedRoute } from './RestrictedRoute';
+import { refreshUser } from 'redux/auth/operations';
+import { useAuth } from '../hooks/useAuth';
 
-import GlobalStyle from './GlobalStyle';
-import { ContactForm } from './contactForm/ContactForm';
-import { ContactList } from './contactList/ContactList';
-import { Filter } from './filter/Filter';
-import { Phonebook } from './App.styled';
+const HomePage = lazy(() => import('../pages/Home'));
+const RegisterPage = lazy(() => import('../pages/Register'));
+const LoginPage = lazy(() => import('../pages/Login'));
+const ContactsPage = lazy(() => import('../pages/Contacts'));
 
 export const App = () => {
   const dispatch = useDispatch();
-  const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
-  const contacts = useSelector(selectContact);
+  // Cтан аутентифікації користувача:
+  const { isRefreshing } = useAuth();
 
+  // Функцію оновлення користувача:
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(refreshUser());
   }, [dispatch]);
 
-  return (
-    <Phonebook>
-      <h1>Phonebook</h1>
-      <ContactForm />
-      <h2>Contacts</h2>
-      {isLoading && !error && <b>Request in progress...</b>}
-      {contacts.length > 0 ? <Filter /> : <p>Add contact!</p>}
-      {contacts.length > 0 && <ContactList />}
-      <GlobalStyle />
-    </Phonebook>
+  // Перевіряємо, чи триває процес оновлення користувача
+  // Якщо так, відображаємо текст "Оновлення користувача..."
+  // Якщо ні, відображаємо структуру маршрутизації додатка
+  return isRefreshing ? (
+    <p>Оновлення користувача...</p>
+  ) : (
+    <div>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route
+            path="/register"
+            element={
+              <RestrictedRoute
+                redirectTo="/login"
+                component={<RegisterPage />}
+              />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <RestrictedRoute
+                redirectTo="/contacts"
+                component={<LoginPage />}
+              />
+            }
+          />
+
+          <Route
+            path="/contacts"
+            element={
+              <PrivateRoute redirectTo="/login" component={<ContactsPage />} />
+            }
+          />
+        </Route>
+        <Route path="*" element={<HomePage />} />
+      </Routes>
+    </div>
   );
 };
