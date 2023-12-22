@@ -1,4 +1,4 @@
-import { Link } from './Navigation.styled';
+import { Links } from './Navigation.styled';
 import { useAuth } from 'hooks';
 
 export const Navigation = () => {
@@ -6,8 +6,8 @@ export const Navigation = () => {
 
   return (
     <nav>
-      <Link to="/">Home</Link>
-      {isLoggedIn && <Link to="/tasks">Tasks</Link>}
+      <Links to="/">Home</Links>
+      {isLoggedIn && <Links to="/contacts">Contacts</Links>}
     </nav>
   );
 };
