@@ -1,7 +1,13 @@
 import React from 'react';
-import { Formik, Field, ErrorMessage } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { StyledForm, StyledLabel, StyledButton } from './contactForm.styled';
+import {
+  StyledForm,
+  StyledLabel,
+  StyledButton,
+  StyledErrorMessage,
+  StyledField,
+} from './contactForm.styled';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { selectContact } from 'redux/contacts/selectors';
@@ -44,11 +50,11 @@ export function ContactForm() {
       >
         <StyledForm>
           <StyledLabel>Name</StyledLabel>
-          <Field type="text" name="name" />
-          <ErrorMessage name="name" component="div" />
+          <StyledField type="text" name="name" />
+          <StyledErrorMessage name="name" component="div" />
           <StyledLabel>Number</StyledLabel>
-          <Field type="tel" name="number" />
-          <ErrorMessage name="number" component="div" />
+          <StyledField type="tel" name="number" />
+          <StyledErrorMessage name="number" component="div" />
           <StyledButton type="">Add contact</StyledButton>
         </StyledForm>
       </Formik>

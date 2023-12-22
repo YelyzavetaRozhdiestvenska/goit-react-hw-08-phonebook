@@ -17,7 +17,7 @@ export const App = () => {
   // Cтан аутентифікації користувача:
   const { isRefreshing } = useAuth();
 
-  // Функцію оновлення користувача:
+  // Функціz оновлення користувача:
   useEffect(() => {
     dispatch(refreshUser());
   }, [dispatch]);
@@ -26,40 +26,35 @@ export const App = () => {
   // Якщо так, відображаємо текст "Оновлення користувача..."
   // Якщо ні, відображаємо структуру маршрутизації додатка
   return isRefreshing ? (
-    <p>Оновлення користувача...</p>
+    <p>Refreshing user...</p>
   ) : (
-    <div>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route
-            path="/register"
-            element={
-              <RestrictedRoute
-                redirectTo="/login"
-                component={<RegisterPage />}
-              />
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <RestrictedRoute
-                redirectTo="/contacts"
-                component={<LoginPage />}
-              />
-            }
-          />
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<HomePage />} />
+        <Route
+          path="/register"
+          element={
+            <RestrictedRoute
+              redirectTo="/contacts"
+              component={<RegisterPage />}
+            />
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <RestrictedRoute redirectTo="/contacts" component={<LoginPage />} />
+          }
+        />
 
-          <Route
-            path="/contacts"
-            element={
-              <PrivateRoute redirectTo="/login" component={<ContactsPage />} />
-            }
-          />
-        </Route>
-        <Route path="*" element={<HomePage />} />
-      </Routes>
-    </div>
+        <Route
+          path="/contacts"
+          element={
+            <PrivateRoute redirectTo="/login" component={<ContactsPage />} />
+          }
+        />
+      </Route>
+      <Route path="*" element={<HomePage />} />
+    </Routes>
   );
 };

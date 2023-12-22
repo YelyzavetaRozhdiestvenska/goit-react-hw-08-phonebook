@@ -39,30 +39,30 @@ img {
   height: auto;
 }
 
-button {
-  border: none;
-  border-radius: 10px;
-  text-decoration: none;
-  color: white;
-  background: #0B63F6;
-  box-shadow: 0 5px 0 #003CC5;
-}
+// button {
+//   border: none;
+//   border-radius: 10px;
+//   text-decoration: none;
+//   color: white;
+//   background: #0B63F6;
+//   box-shadow: 0 5px 0 #003CC5;
+// }
 
-button:hover {
-  background: #003CC5;
-  box-shadow: none;
-  position: relative;
-  top: 5px;
-  cursor: pointer;
-}
+// button:hover {
+//   background: #003CC5;
+//   box-shadow: none;
+//   position: relative;
+//   top: 5px;
+//   cursor: pointer;
+// }
 
-button:active {
-  background: #003CC5;
-  box-shadow: none;
-  position: relative;
-  top: 5px;
-  scale: 0.9;
-}
-`;
+// button:active {
+//   background: #003CC5;
+//   box-shadow: none;
+//   position: relative;
+//   top: 5px;
+//   scale: 0.9;
+// }
+// `;
 
 export default GlobalStyle;
